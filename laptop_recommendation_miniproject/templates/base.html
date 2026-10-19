@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laptop Recommendation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Laptop Recommendation System</h1>
+        <nav>
+            <a href="/">Recommend</a>
+            <a href="/analysis">Data Analysis</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>Data Science Mini-Project | S.Y. B.Tech Information Technology</footer>
+</body>
+</html>

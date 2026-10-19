@@ -1,0 +1,77 @@
+{
+  "hypothesis": {
+    "ssd_mean": 151717,
+    "other_mean": 70195,
+    "t_value": 25.44,
+    "p_value": 9.57e-116,
+    "conclusion": "p-value < 0.05, so we REJECT H0. SSD laptops have a different average price."
+  },
+  "distribution": {
+    "skew_before": 1.51,
+    "skew_after_log": -0.18,
+    "limit": 100000,
+    "probability": 0.481,
+    "actual_share": 0.459
+  },
+  "regression": [
+    {
+      "model": "Linear Regression",
+      "r2": 0.764,
+      "mae": 25920,
+      "rmse": 32990
+    },
+    {
+      "model": "Random Forest",
+      "r2": 0.825,
+      "mae": 19522,
+      "rmse": 28390
+    }
+  ],
+  "top_features": [
+    {
+      "feature": "RAM_GB",
+      "importance": 0.48
+    },
+    {
+      "feature": "Weight_kg",
+      "importance": 0.111
+    },
+    {
+      "feature": "CPU_Series_Core i7",
+      "importance": 0.079
+    },
+    {
+      "feature": "TypeName_Notebook",
+      "importance": 0.074
+    },
+    {
+      "feature": "Resolution_Width",
+      "importance": 0.042
+    }
+  ],
+  "classification": {
+    "accuracy": 0.757,
+    "labels": [
+      "Budget",
+      "Mid-range",
+      "Premium"
+    ],
+    "confusion_matrix": [
+      [
+        66,
+        10,
+        1
+      ],
+      [
+        4,
+        57,
+        26
+      ],
+      [
+        1,
+        20,
+        70
+      ]
+    ]
+  }
+}

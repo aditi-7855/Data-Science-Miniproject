@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Find Your Laptop</h2>
+
+<form method="POST" class="box">
+    <label>Maximum Budget (INR)</label>
+    <input type="number" name="budget" value="{{ form.budget }}" min="10000" step="5000">
+
+    <label>Laptop Type</label>
+    <select name="laptop_type">
+        <option>Any</option>
+        {% for t in types %}
+        <option {% if t == form.laptop_type %}selected{% endif %}>{{ t }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Brand</label>
+    <select name="brand">
+        <option>Any</option>
+        {% for b in brands %}
+        <option {% if b == form.brand %}selected{% endif %}>{{ b }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Minimum RAM (GB)</label>
+    <select name="min_ram">
+        {% for r in ram_options %}
+        <option {% if r == form.min_ram %}selected{% endif %}>{{ r }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Storage Type</label>
+    <select name="storage">
+        {% for s in ["Any", "SSD", "HDD"] %}
+        <option {% if s == form.storage %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Recommend</button>
+</form>
+
+{% if results is not none %}
+    <h2>Top Recommendations</h2>
+    {% if results %}
+    <table>
+        <tr>
+            <th>Brand</th><th>Model</th><th>Type</th><th>Processor</th>
+            <th>RAM</th><th>Storage</th><th>Price (INR)</th><th>Value Score</th>
+        </tr>
+        {% for r in results %}
+        <tr>
+            <td>{{ r.Company }}</td>
+            <td>{{ r.Product }}</td>
+            <td>{{ r.TypeName }}</td>
+            <td>{{ r.CPU_Company }} {{ r.CPU_Type }}</td>
+            <td>{{ r.RAM_GB }} GB</td>
+            <td>{{ r.Memory }}</td>
+            <td>{{ "{:,.0f}".format(r.Price_INR) }}</td>
+            <td>{{ r.Value_Score }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p><b>Value Score</b> = price predicted by the machine learning model / actual price.
+       A score above 1.0 means you get more laptop than the price suggests.</p>
+    {% else %}
+    <p>No laptop matches these choices. Try a higher budget or lower RAM.</p>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

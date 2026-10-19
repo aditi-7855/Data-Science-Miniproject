@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>1. Data Cleaning Report</h2>
+<div class="box">
+    <p>Rows: {{ report.rows_before }} before cleaning, {{ report.rows_after }} after cleaning</p>
+    <p>Missing values found: {{ report.missing_values }} &nbsp;|&nbsp;
+       Duplicate rows removed: {{ report.duplicates_removed }}</p>
+    <p>Price outliers found (IQR method): {{ report.outliers_found }}
+       (prices above {{ "{:,.0f}".format(report.price_upper_limit_inr) }} INR were capped for modelling)</p>
+    <p>Exchange rate used (from API): 1 EUR = {{ report.exchange_rate }} INR</p>
+</div>
+
+<h2>2. Summary Statistics</h2>
+<div class="box">{{ summary | safe }}</div>
+
+<h2>3. Visualizations</h2>
+{% for file, text in charts %}
+<div class="chart">
+    <img src="{{ url_for('static', filename='charts/' + file) }}" alt="chart">
+    <p>{{ text }}</p>
+</div>
+{% endfor %}
+
+<h2>4. Hypothesis Testing (t-test)</h2>
+<div class="box">
+    <p><b>H0:</b> SSD laptops and other laptops have the same average price.<br>
+       <b>H1:</b> Their average prices are different.</p>
+    <p>Average price of SSD laptops: {{ "{:,.0f}".format(results.hypothesis.ssd_mean) }} INR<br>
+       Average price of other laptops: {{ "{:,.0f}".format(results.hypothesis.other_mean) }} INR</p>
+    <p>t-value = {{ results.hypothesis.t_value }}, p-value = {{ results.hypothesis.p_value }}</p>
+    <p><b>Result:</b> {{ results.hypothesis.conclusion }}</p>
+</div>
+
+<h2>5. Probability Distribution</h2>
+<div class="box">
+    <p>Price skewness: {{ results.distribution.skew_before }} (before log) and
+       {{ results.distribution.skew_after_log }} (after log), so log(price) is close to a normal curve.</p>
+    <p>Probability that a laptop costs less than 1,00,000 INR (normal distribution):
+       <b>{{ results.distribution.probability }}</b><br>
+       Actual share in the data: <b>{{ results.distribution.actual_share }}</b></p>
+</div>
+
+<h2>6. Regression: Predicting Price</h2>
+<table>
+    <tr><th>Model</th><th>R2 Score</th><th>MAE (INR)</th><th>RMSE (INR)</th></tr>
+    {% for m in results.regression %}
+    <tr><td>{{ m.model }}</td><td>{{ m.r2 }}</td>
+        <td>{{ "{:,.0f}".format(m.mae) }}</td><td>{{ "{:,.0f}".format(m.rmse) }}</td></tr>
+    {% endfor %}
+</table>
+
+<p><b>Top 5 features affecting price (Random Forest):</b></p>
+<table>
+    <tr><th>Feature</th><th>Importance</th></tr>
+    {% for f in results.top_features %}
+    <tr><td>{{ f.feature }}</td><td>{{ f.importance }}</td></tr>
+    {% endfor %}
+</table>
+
+<h2>7. Classification: Budget / Mid-range / Premium</h2>
+<p>Decision Tree accuracy: <b>{{ results.classification.accuracy }}</b></p>
+<p>Confusion matrix (rows = actual, columns = predicted):</p>
+<table>
+    <tr><th></th>{% for l in results.classification.labels %}<th>{{ l }}</th>{% endfor %}</tr>
+    {% for row in results.classification.confusion_matrix %}
+    <tr>
+        <td><b>{{ results.classification.labels[loop.index0] }}</b></td>
+        {% for v in row %}<td>{{ v }}</td>{% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+/* Only two colours: navy #010736 and off-white #F3F4F4 */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #F3F4F4;
+    color: #010736;
+}
+header {
+    background: #010736;
+    color: #F3F4F4;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header h1 { margin: 0; font-size: 22px; }
+header a { color: #F3F4F4; margin-left: 20px; text-decoration: none; }
+header a:hover { text-decoration: underline; }
+
+main { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+h2 { border-bottom: 2px solid #010736; padding-bottom: 6px; }
+
+.box { border: 2px solid #010736; padding: 20px; margin-bottom: 25px; }
+
+form label { display: block; margin-top: 12px; font-weight: bold; }
+input, select {
+    width: 100%; padding: 8px; margin-top: 5px;
+    border: 2px solid #010736; background: #F3F4F4; color: #010736;
+    font-size: 15px; box-sizing: border-box;
+}
+button {
+    margin-top: 20px; padding: 10px 28px;
+    background: #010736; color: #F3F4F4;
+    border: none; font-size: 16px; cursor: pointer;
+}
+
+table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+th { background: #010736; color: #F3F4F4; padding: 8px; text-align: left; }
+td { padding: 8px; border: 1px solid #010736; }
+
+img { max-width: 100%; border: 2px solid #010736; }
+.chart { margin-bottom: 25px; }
+.chart p { margin: 6px 0 0; }
+footer { text-align: center; padding: 20px; font-size: 13px; }

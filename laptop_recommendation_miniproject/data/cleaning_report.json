@@ -1,0 +1,9 @@
+{
+  "rows_before": 1275,
+  "rows_after": 1275,
+  "missing_values": 0,
+  "duplicates_removed": 0,
+  "outliers_found": 28,
+  "price_upper_limit_inr": 308225,
+  "exchange_rate": 109.0
+}
